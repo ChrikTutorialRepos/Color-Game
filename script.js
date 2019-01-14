@@ -2,10 +2,12 @@ var correctSquare;
 var correctColor;
 var squares = document.querySelectorAll(".square");
 var messageDisplay = document.querySelector("#message");
+var resetButton = document.querySelector("#reset");
 squares.forEach(function(square){
     square.addEventListener("click", function(){
         if("rgb(" + correctColor + ")" === square.style.backgroundColor){
             messageDisplay.textContent = "CORRECT!";
+            resetButton.textContent = "Play Again?";
             document.querySelector("h1").style.backgroundColor = "rgb(" + correctColor + ")";
             squares.forEach(function(square){
                 square.style.backgroundColor = "rgb(" + correctColor + ")";
@@ -17,6 +19,8 @@ squares.forEach(function(square){
         }
     })
 });
+
+resetButton.addEventListener("click", reset);
 
 function chooseCorrect(){
     correctSquare = Math.floor(Math.random() * 6);
@@ -35,5 +39,12 @@ function setSquareColors(){
     }
 }
 
-chooseCorrect();
-setSquareColors();
+function reset(){
+    chooseCorrect();
+    setSquareColors();
+    resetButton.textContent = "New Colors";
+    messageDisplay.textContent = "";
+    document.querySelector("h1").style.backgroundColor = "#232323";
+}
+
+reset();
