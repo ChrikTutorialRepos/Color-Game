@@ -5,17 +5,25 @@
     <link rel="stylesheet" type="text/css" href="colorGame.css">
 </head>
 <body>
-    <h1>The Great RGB(<span id="answer"></span>) Guessing Game</h1>
+    <h1>
+        The Great
+        <br>
+        <span id="answer"></span>
+        <br>
+        Guessing Game
+    </h1>
 
     <div id="stripe">
         <button id="reset">New Colors</button>
         <span id="message"> </span>
+        <button id="easy">EASY</button>
+        <button id="hard" class="selected">HARD</button>
     </div>
 
     <div id="container">
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
+        <div class="square easySquare"></div>
+        <div class="square easySquare"></div>
+        <div class="square easySquare"></div>
         <div class="square"></div>
         <div class="square"></div>
         <div class="square"></div>

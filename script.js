@@ -1,29 +1,46 @@
 var correctSquare;
 var correctColor;
+var hardMode = true;
 var squares = document.querySelectorAll(".square");
 var messageDisplay = document.querySelector("#message");
 var resetButton = document.querySelector("#reset");
-squares.forEach(function(square){
-    square.addEventListener("click", function(){
-        if("rgb(" + correctColor + ")" === square.style.backgroundColor){
-            messageDisplay.textContent = "CORRECT!";
-            resetButton.textContent = "Play Again?";
-            document.querySelector("h1").style.backgroundColor = "rgb(" + correctColor + ")";
-            squares.forEach(function(square){
-                square.style.backgroundColor = "rgb(" + correctColor + ")";
-            })
-        }
-        else{
-            square.style.backgroundColor = "#232323";
-            messageDisplay.textContent = "Try again"
-        }
-    })
-});
+var easyButton = document.querySelector("#easy");
+var hardButton = document.querySelector("#hard");
+var h1 = document.querySelector("h1");
 
-resetButton.addEventListener("click", reset);
+function init(){
+    squares.forEach(function(square){
+        square.addEventListener("click", checkSquare);
+    });
+
+    resetButton.addEventListener("click", reset);
+    easyButton.addEventListener("click", changeMode);
+    hardButton.addEventListener("click", changeMode);
+    reset();
+}
 
 function chooseCorrect(){
-    correctSquare = Math.floor(Math.random() * 6);
+    if(hardMode){
+        correctSquare = Math.floor(Math.random() * 6);
+    }
+    else{
+        correctSquare = Math.floor(Math.random() * 3);
+    }
+}
+
+function checkSquare(){
+    if(correctColor === this.style.backgroundColor){
+        messageDisplay.textContent = "CORRECT!";
+        resetButton.textContent = "Play Again?";
+        h1.style.backgroundColor = correctColor;
+        squares.forEach(function(square){
+            square.style.backgroundColor = correctColor;
+        });
+    }
+    else{
+        this.style.backgroundColor = "#232323";
+        messageDisplay.textContent = "Try again"
+    }
 }
 
 function setSquareColors(){
@@ -33,9 +50,28 @@ function setSquareColors(){
         var b = Math.floor(Math.random() * 256);
         squares[i].style.backgroundColor = "RGB(" + r + ", " + g + ", " + b + ")";
         if(correctSquare === i){
-            correctColor = r + ", " + g + ", " + b;
+            correctColor = "rgb(" + r + ", " + g + ", " + b  + ")";
             document.querySelector("#answer").textContent = correctColor;
         }
+    }
+}
+
+function changeMode(){
+    easyButton.classList.remove("selected");
+    hardButton.classList.remove("selected");
+    this.classList.add("selected");
+    if("EASY" === this.textContent && hardMode){
+        hardMode = !hardMode;
+        squares.forEach(function(square){
+            square.style.backgroundColor = "#232323";
+        });
+        squares = document.querySelectorAll(".easySquare");
+        reset();
+    }
+    else if("HARD" === this.textContent && !hardMode){
+        hardMode = !hardMode;
+        squares = document.querySelectorAll(".square");
+        reset();
     }
 }
 
@@ -44,7 +80,7 @@ function reset(){
     setSquareColors();
     resetButton.textContent = "New Colors";
     messageDisplay.textContent = "";
-    document.querySelector("h1").style.backgroundColor = "#232323";
+    document.querySelector("h1").style.backgroundColor = "steelblue";
 }
 
-reset();
+init();
